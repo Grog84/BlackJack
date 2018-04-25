@@ -7,7 +7,7 @@ public class SpriteManager : MonoBehaviour {
     [SerializeField]
     public Sprite[] spriteArray;
 
-    private Dictionary<string, Sprite> _spriteDict = new Dictionary<string, Sprite>();
+    public Dictionary<string, Sprite> spriteDict = new Dictionary<string, Sprite>();
 
     public static SpriteManager instance
     {
@@ -34,21 +34,21 @@ public class SpriteManager : MonoBehaviour {
     public Sprite GetSprite(string itemID)
     {
         Sprite sprite = null;
-        if (!_spriteDict.TryGetValue(itemID, out sprite))
+        if (!spriteDict.TryGetValue(itemID, out sprite))
         {
             Debug.LogWarning("SpriteManager : unable to find sprite '" + itemID + "'");
-            _spriteDict.TryGetValue("empty", out sprite);
+            spriteDict.TryGetValue("empty", out sprite);
         }
         return sprite;
     }
 
     private void LoadCardTextureAtlases()
     {
-        _spriteDict.Clear();
+        spriteDict.Clear();
         for (int i = 0; i < spriteArray.Length; i++)
         {
             Sprite sprite = spriteArray[i];
-            _spriteDict[NameToID(sprite.name)] = sprite;
+            spriteDict[NameToID(sprite.name)] = sprite;
         }
     }
 

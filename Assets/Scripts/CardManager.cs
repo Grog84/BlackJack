@@ -5,9 +5,8 @@ using UnityEngine;
 public class CardManager : MonoBehaviour {
 
 
-    private List<CardVO> _thumbnailVOList = new List<CardVO>();
+    private List<CardVO> _cardsVOList = new List<CardVO>();
 
-    // Use this for initialization
     void Start () {
 
         createCardsVOList();
@@ -16,10 +15,13 @@ public class CardManager : MonoBehaviour {
     private void createCardsVOList()
     {
         CardVO cardVO;
-        for (int i = 0; i < 52; i++)
+        List<string> dictKeys = new List<string>(SpriteManager.instance.spriteDict.Keys);
+
+        for (int i = 0; i < SpriteManager.instance.spriteDict.Count; i++)
         {
             cardVO = new CardVO();
-            
+            cardVO.id = dictKeys[i];
+            _cardsVOList.Add(cardVO);
         }
     }
 }

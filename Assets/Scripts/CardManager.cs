@@ -4,10 +4,9 @@ using UnityEngine;
 
 public class CardManager : MonoBehaviour {
 
-
     private List<CardVO> _cardsVOList = new List<CardVO>();
 
-    void Start () {
+    public void Init () {
 
         createCardsVOList();
     }

@@ -19,7 +19,7 @@ public class SpriteManager : MonoBehaviour {
         if (instance == null)
         {
             instance = this;
-            instance.LoadCardTextureAtlases();
+            
             DontDestroyOnLoad(this);
         }
         else
@@ -29,6 +29,11 @@ public class SpriteManager : MonoBehaviour {
                 Destroy(this.gameObject);
             }
         }
+    }
+
+    public void Init()
+    {
+        instance.LoadCardTextureAtlases();
     }
 
     public Sprite GetSprite(string itemID)
@@ -59,30 +64,7 @@ public class SpriteManager : MonoBehaviour {
         int cardIdx = -1;
         if (Int32.TryParse(name.Split('_')[1], out cardIdx))
         {
-            if (cardIdx >= 0 && cardIdx <= 12)
-            {
-                // hearts
-                id = cardIdx + "H";
-            }
-            else if (cardIdx >= 13 && cardIdx <= 25)
-            {
-                // diamonds
-                id = (cardIdx - 13) + "D";
-            }
-            else if (cardIdx >= 26 && cardIdx <= 38)
-            {
-                // clubs
-                id = (cardIdx - 26) + "C";
-            }
-            else if (cardIdx >= 39 && cardIdx <= 51)
-            {
-                // spades
-                id = (cardIdx - 39) + "S";
-            }
-            else
-            {
-                id = cardIdx.ToString();
-            }
+            id = cardIdx.ToString();
         }
 
         return id;

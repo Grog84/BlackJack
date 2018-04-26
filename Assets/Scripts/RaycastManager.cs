@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+using Cards;
+
 public class RaycastManager : MonoBehaviour
 {
     public LayerMask interactableMask;
@@ -9,6 +11,7 @@ public class RaycastManager : MonoBehaviour
     bool mouseBtnDown;
 
     Ray ray = new Ray();
+    RaycastHit rayHit = new RaycastHit();
 
     private void Start()
     {
@@ -22,9 +25,16 @@ public class RaycastManager : MonoBehaviour
         {
             mouseBtnDown = true;
             ray.origin = InputManager.instance.GetPosition();
-            if (Physics.Raycast(ray, float.PositiveInfinity, interactableMask))
+            if (Physics.Raycast(ray, out rayHit, float.PositiveInfinity, interactableMask))
             {
-
+                if (rayHit.collider.tag == "Card")
+                {
+                    rayHit.collider.GetComponent<Card>().grabbed = true;
+                }
+                else if (rayHit.collider.tag == "Deck")
+                {
+                    rayHit.collider.GetComponent<Deck>().clicked = true;
+                }
             }
         }
     }

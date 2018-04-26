@@ -24,7 +24,10 @@ namespace Cards
             set
             {
                 _clicked = value;
-                TakeCard();
+                if (_clicked)
+                {
+                    TakeCard();
+                }           
             }
         }
 
@@ -62,12 +65,20 @@ namespace Cards
             }
         }
 
-        public void AddCard(int cardID)
+        public void AddCard(Card card)
         {
             transform.position += Vector3.up * cardThickness;
             transform.position += Vector3.up * cardThickness;
 
-            cards.Push(cardID);
+            cards.Push(card.cardVO.idValue);
+        }
+
+        private void OnCollisionEnter(Collision collision)
+        {
+            if (collision.gameObject.tag == "Card")
+            {
+                AddCard(collision.gameObject.GetComponent<Card>());
+            }
         }
 
     }

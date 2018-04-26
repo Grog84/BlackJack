@@ -7,7 +7,7 @@ namespace Cards
     public class CardVO
     {
         string _id;
-        int value;
+        int _idValue;
 
         public string id
         {
@@ -16,7 +16,7 @@ namespace Cards
             {
                 _id = value;
                 var stringValue = _id.TakeWhile<char>(c => !Char.IsDigit(c));
-                if (!Int32.TryParse(stringValue.ToString(), out this.value))
+                if (!Int32.TryParse(stringValue.ToString(), out _idValue))
                 {
                     Debug.LogError("Card '" + _id + "' value not assigned");
                 }
@@ -24,7 +24,13 @@ namespace Cards
             }
         }
 
-        public CardVO() { value = 0; }
+        public int idValue
+        {
+            get { return _idValue; }
+            set { _idValue = value; }
+        }
+
+        public CardVO() { _idValue = -1; }
     }
 
 }

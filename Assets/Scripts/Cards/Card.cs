@@ -10,7 +10,7 @@ namespace Cards
         public SpriteRenderer frontRenderer;
 
         private bool _grabbed;
-        private Vector3 selectionOffset;
+        public Vector3 grabbingOffset { get; private set; }
 
         public CardVO cardVO
         {
@@ -21,7 +21,7 @@ namespace Cards
             set
             {
                 _cardVO = value;
-                frontRenderer.sprite = SpriteManager.instance.GetSprite(_cardVO.id);
+                frontRenderer.sprite = SpriteManager.instance.GetSprite(_cardVO.id);          
             }
         }
 
@@ -34,10 +34,12 @@ namespace Cards
             set
             {
                 _grabbed = value;
-                selectionOffset = InputManager.instance.GetPosition() - transform.position;
+                if (_grabbed)
+                {
+                    grabbingOffset = InputManager.instance.GetPosition() - transform.position;
+                }
             }
         }
-
 
     }
 }

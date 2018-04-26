@@ -11,20 +11,10 @@ namespace AI
 
         void Start()
         {
-            StartCoroutine(BrainCO());
+            decisionMaker.player = GetComponent<Player>();
         }
 
-        public IEnumerator BrainCO()
-        {
-            while (true)
-            {
-                yield return new WaitForSeconds(tickDelay);
-                
-                TickBrain();
-            }
-        }
-
-        void TickBrain()
+        public void TickBrain()
         {
             decisionMaker.MakeDecision();
         }     

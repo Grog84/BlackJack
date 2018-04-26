@@ -128,6 +128,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4721279570717830}
+  - component: {fileID: 114824076938293560}
   - component: {fileID: 114551112504290620}
   m_Layer: 0
   m_Name: Player
@@ -342,6 +343,24 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   decisionMaker: {fileID: 11400000, guid: d1272f17fcc1b1a419608db3c2fc1d59, type: 2}
   tickDelay: 1
+--- !u!114 &114824076938293560
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1924089260069766}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8b278c0bae740fe488965cdd8fa2aa13, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerHandValue: 0
+  stateRenderer: {fileID: 212114993496453282}
+  oneMoreColor: {r: 0.2116674, g: 0.99264705, b: 0.44326824, a: 1}
+  stopColor: {r: 1, g: 0.80344826, b: 0.16176468, a: 1}
+  bustedColor: {r: 1, g: 0, b: 0, a: 1}
+  decidingColor: {r: 0.6691177, g: 0.6691177, b: 0.6691177, a: 1}
+  idleColor: {r: 1, g: 1, b: 1, a: 1}
 --- !u!212 &212114993496453282
 SpriteRenderer:
   m_ObjectHideFlags: 1

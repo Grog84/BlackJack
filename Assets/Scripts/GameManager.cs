@@ -57,6 +57,8 @@ public class GameManager : MonoBehaviour {
             players[i] = playersGO[i].GetComponent<Player>();
         }
 
+        turnManager.Init();
+
     }
 
     public TurnPhase GetCurrentTurnPhase()

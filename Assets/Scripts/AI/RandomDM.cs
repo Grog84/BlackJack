@@ -32,7 +32,7 @@ namespace AI
             switch (attitude)
             {
                 case PlayerAttitude.SHY:
-                    successThreshold = 0.4f;
+                    successThreshold = 0.3f;
                     break;
                 case PlayerAttitude.NORMAL:
                     successThreshold = 0.6f;
@@ -50,6 +50,10 @@ namespace AI
             if (player.playerHandValue <= 10)
             {
                 return true;
+            }
+            else if (player.playerHandValue == 21)
+            {
+                return false;
             }
             else
             {

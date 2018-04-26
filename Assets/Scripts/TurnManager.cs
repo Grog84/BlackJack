@@ -8,6 +8,15 @@ public class TurnManager : MonoBehaviour {
 
     public TurnPhase state { get; private set; }
 
+    [HideInInspector] public bool dealerTurn = true;
+
+    UIManager uiManager;
+
+    private void Start()
+    {
+        uiManager = FindObjectOfType<UIManager>();
+    }
+
     public void Init()
     {
         state = TurnPhase.IDLE;
@@ -26,6 +35,8 @@ public class TurnManager : MonoBehaviour {
 
     IEnumerator PlayerTurnCO()
     {
+        uiManager.PlayerTurnBegins();
+
         foreach (var pl in GameManager.instance.players)
         {
             pl.state = PlayerState.DECIDING;
@@ -40,7 +51,12 @@ public class TurnManager : MonoBehaviour {
 
     IEnumerator DealerTurnCO()
     {
-        yield return null;
+        uiManager.DealerTurnBegins();
+
+        while (dealerTurn)
+        {
+            yield return null;    
+        }
     }
 
     IEnumerator PassTurnCO()

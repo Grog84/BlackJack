@@ -20,7 +20,7 @@ public class Player : MonoBehaviour {
     //delegate void StateExit();
     //StateExit stateExit;
 
-    bool waitingForCard;
+    [HideInInspector] public bool waitingForCard;
 
     public SpriteRenderer stateRenderer;
 
@@ -49,6 +49,7 @@ public class Player : MonoBehaviour {
     private void Awake()
     { 
         brain = GetComponent<Brain>();
+        playerHandValue = 0;
     }
 
     //
@@ -92,7 +93,7 @@ public class Player : MonoBehaviour {
         {
             state = PlayerState.BUSTED;
         }
-        else
+        else if (!waitingForCard && playerHandValue <= 21)
         {
             state = PlayerState.DECIDING;
         }

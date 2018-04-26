@@ -6,6 +6,9 @@ namespace Cards
 {
     public class Deck : MonoBehaviour {
 
+        private CardPoolManager cardPoolManager;
+        private CardManager cardManager;
+
         private Stack<int> cards = new Stack<int>();
 
         float cardThickness;
@@ -37,6 +40,8 @@ namespace Cards
 
             startingPosition = transform.position.y;
             startingHeight = transform.position.y;
+
+            cardPoolManager = FindObjectOfType<CardPoolManager>();
         }
 
         public void ReShuffle()
@@ -50,19 +55,22 @@ namespace Cards
         }
 
 
-        public int TakeCard()
+        public void TakeCard()
         {
             transform.position += Vector3.down * cardThickness;
             transform.position += Vector3.down * cardThickness;
 
+            int cardIdx = -1;
+
             if (cards.Count > 0)
             {
-                return cards.Pop();
+                cardIdx = cards.Pop();
+                Card pickedUpCard = cardPoolManager.GetNext();
+                pickedUpCard.cardVO = cardManager.cardsVOList[cardIdx];
+                pickedUpCard.transform.position = transform.position;
+                pickedUpCard.grabbed = true;
             }
-            else
-            {
-                return -1;
-            }
+
         }
 
         public void AddCard(Card card)
@@ -71,6 +79,7 @@ namespace Cards
             transform.position += Vector3.up * cardThickness;
 
             cards.Push(card.cardVO.idValue);
+            cardPoolManager.ParkCard(card);
         }
 
         private void OnCollisionEnter(Collision collision)

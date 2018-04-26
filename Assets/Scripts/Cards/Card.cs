@@ -6,6 +6,8 @@ namespace Cards
 {
     public class Card : MonoBehaviour
     {
+        int pointsValue;
+
         private CardVO _cardVO;
         public SpriteRenderer frontRenderer;
 
@@ -21,7 +23,8 @@ namespace Cards
             set
             {
                 _cardVO = value;
-                frontRenderer.sprite = SpriteManager.instance.GetSprite(_cardVO.id);          
+                frontRenderer.sprite = SpriteManager.instance.GetSprite(_cardVO.id);
+                VOPointsConvertion();
             }
         }
 
@@ -39,6 +42,28 @@ namespace Cards
                     grabbingOffset = InputManager.instance.GetPosition() - transform.position;
                 }
             }
+        }
+
+        void VOPointsConvertion()
+        {
+            int normalizedValue = _cardVO.idValue % 13;
+            if (normalizedValue <= 9)
+            {
+                pointsValue = normalizedValue;
+            }
+            else if (normalizedValue >= 10 || normalizedValue <= 12)
+            {
+                pointsValue = 10;
+            }
+            else
+            {
+                pointsValue = 11;
+            }
+        }
+
+        public int GetPoints()
+        {
+            return pointsValue;
         }
 
     }

@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Linq;
 using UnityEngine;
 
 namespace Cards
@@ -15,8 +14,7 @@ namespace Cards
             set
             {
                 _id = value;
-                var stringValue = _id.TakeWhile<char>(c => !Char.IsDigit(c));
-                if (!Int32.TryParse(stringValue.ToString(), out _idValue))
+                if (!Int32.TryParse(_id.ToString(), out _idValue))
                 {
                     Debug.LogError("Card '" + _id + "' value not assigned");
                 }

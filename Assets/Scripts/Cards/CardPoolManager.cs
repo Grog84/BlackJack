@@ -43,6 +43,13 @@ namespace Cards
             }
         }
 
+        public void ParkCard(Card card)
+        {
+
+            card.transform.position = parkingPosition;
+            
+        }
+
 
     }
 }

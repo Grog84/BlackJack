@@ -18,8 +18,7 @@ public class SpriteManager : MonoBehaviour {
     {
         if (instance == null)
         {
-            instance = this;
-            
+            instance = this;      
             DontDestroyOnLoad(this);
         }
         else

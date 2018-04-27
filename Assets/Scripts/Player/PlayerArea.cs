@@ -4,21 +4,25 @@ using UnityEngine;
 
 using Cards;
 
+// TODO This should have been derived from a generic Area object together with dealer area
 public class PlayerArea : MonoBehaviour {
 
     Player player;
 
     List<Transform> cardPositions = new List<Transform>();
 
-    bool animationRunning;
+    bool waitingForRelease;
 
     int availablePositionsNbr;
     int nextPosition;
 
+    CardAnimation targetCardAnim;
+    Card targetCard;
+
+    List<CardAnimation> anchoredCards = new List<CardAnimation>();
+
     private void Awake()
     {
-        animationRunning = false;
-
         player = GetComponentInParent<Player>();
         foreach (Transform tr in transform)
         {
@@ -32,21 +36,65 @@ public class PlayerArea : MonoBehaviour {
     {
         if (other.tag == "Card")
         {
-            if (player.waitingForCard && !animationRunning)
+            if (player.waitingForCard)
             {
-                animationRunning = true;
+                waitingForRelease = true;
+                targetCardAnim = other.GetComponent<CardAnimation>();
+                targetCard = other.GetComponent<Card>();
+            }
+        }
+    }
 
-                other.GetComponent<CardAnimation>().AnchorToPosition(cardPositions[nextPosition].position);
-                if (nextPosition < availablePositionsNbr)
-                {
-                    nextPosition++;
-                }
-                else { Debug.Log("Player Area - 'No available position left!'"); }
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.tag == "Card")
+        {
+            waitingForRelease = false;
+            targetCardAnim = null;
+            targetCard = null;
+        }
+    }
 
-                player.playerHandValue += other.GetComponent<Card>().GetPoints();
+    private void AnchorCard()
+    {
+        waitingForRelease = false;
+        targetCard.GetComponent<Rigidbody>().isKinematic = true;
 
-                player.waitingForCard = false;
+        targetCardAnim.AnchorToPosition(cardPositions[nextPosition].position);
+        if (nextPosition < availablePositionsNbr)
+        {
+            nextPosition++;
+        }
+        else { Debug.Log("Player Area - 'No available position left!'"); }
 
+        player.playerHandValue += targetCard.GetPoints();
+        GameManager.instance.AddLockedCard(targetCard.cardVO.idValue);
+
+        player.waitingForCard = false;
+
+        anchoredCards.Add(targetCardAnim);
+
+    }
+
+    public void ReleaseCards()
+    {
+        for (int i = anchoredCards.Count - 1; i > -1; i--)
+        {
+            anchoredCards[i].AnchorToDeckPosition(GameManager.instance.deck.transform.position);
+            anchoredCards.RemoveAt(i);
+        }
+
+        nextPosition = 0;
+    }
+
+
+    private void Update()
+    {
+        if (waitingForRelease)
+        {
+            if (!targetCard.grabbed && !targetCard.animating)
+            {
+                AnchorCard();
             }
         }
     }

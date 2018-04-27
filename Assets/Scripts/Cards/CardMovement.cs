@@ -12,14 +12,13 @@ namespace Cards
         [Range(0.01f, 0.1f)]
         public float yGrabPosition;
 
-        [Range(1, 20)]
         public float inertia;
+
+        public float gravity;
 
         Card card;
         Rigidbody rb;
 
-        Vector3 deltaPosition;
-        Vector3 oldPosition;
         Vector3 deltaSpeedPosition;
         Vector3 speedVec;
 
@@ -29,6 +28,10 @@ namespace Cards
         {
             card    = GetComponent<Card>();
             rb      = GetComponent<Rigidbody>();
+
+            grabbed = false;
+
+            Physics.gravity = Vector3.down * gravity;
         }
 
         private void Update()
@@ -37,20 +40,20 @@ namespace Cards
             {
                 if (!grabbed) // grab just started
                 {
+                    rb.isKinematic = true;
                     grabbed = true;
-                    oldPosition = transform.position + card.grabbingOffset;
                     StartCoroutine(RecordSpeedCO());
                 }
 
-                deltaPosition = InputManager.instance.GetPosition() - oldPosition;
-                transform.Translate(deltaPosition.x * movementSpeed * Time.deltaTime, deltaPosition.y * movementSpeed * Time.deltaTime, yGrabPosition);
-                oldPosition = transform.position + card.grabbingOffset;
+                transform.position = InputManager.instance.GetPosition();
+
             }
             else
             {
                 if (grabbed) // grab just finished
                 {
                     grabbed = false;
+                    rb.isKinematic = false;
                     rb.AddForce(speedVec * inertia);
                 }
             }
@@ -58,8 +61,8 @@ namespace Cards
 
         IEnumerator RecordSpeedCO()
         {
-            Vector2 oldPos = oldPosition;
-            Vector2 newPos = oldPosition;
+            Vector2 oldPos = InputManager.instance.GetPosition();
+            Vector2 newPos = InputManager.instance.GetPosition();
 
             while (grabbed)
             {
@@ -69,7 +72,7 @@ namespace Cards
 
                 speedVec.Set(deltaSpeedPosition.x, deltaSpeedPosition.y, 0);
 
-                yield return new WaitForSeconds(0.1f);
+                yield return new WaitForSeconds(0.05f);
             }
 
         }

@@ -51,16 +51,71 @@ public class TurnManager : MonoBehaviour {
 
     IEnumerator DealerTurnCO()
     {
+        dealerTurn = true;
+
         uiManager.DealerTurnBegins();
+
+        GameManager.instance.dealer.waitingForCard = true;
 
         while (dealerTurn)
         {
+            if (GameManager.instance.dealer.dealerHandValue > 21)
+            {
+                dealerTurn = false;
+                GameManager.instance.dealer.SetBusted();
+            }
             yield return null;    
         }
+
+        GameManager.instance.dealer.waitingForCard = false;
     }
 
     IEnumerator PassTurnCO()
     {
+        string winner = "";
+
+        foreach (var pl in GameManager.instance.players)
+        {
+            if (GameManager.instance.dealer.dealerHandValue > 21)
+            {
+                if (pl.state == PlayerState.BUSTED)
+                {
+                    winner = "Draw";
+                }
+                else
+                {
+                    winner = pl.playerVO.id;
+                }
+            }
+            else
+            {
+                winner = "Dealer";
+                if (pl.state != PlayerState.BUSTED)
+                {
+                    if (pl.playerHandValue > GameManager.instance.dealer.dealerHandValue)
+                    {
+                        winner = pl.playerVO.id;
+                    }
+                }
+            }
+
+            StartCoroutine(ResetPlayer(pl));
+            yield return StartCoroutine(uiManager.Wins(winner));
+        }
+
+        GameManager.instance.dealer.ResetDealer();
+
+        yield return new WaitForSeconds(3);
+
+        GameManager.instance.ResetCardPosition();
+        GameManager.instance.ClearLockedCard();
+
+        yield return null;
+    }
+
+    IEnumerator ResetPlayer(Player player)
+    {
+        player.state = PlayerState.IDLE;
         yield return null;
     }
 
@@ -73,6 +128,12 @@ public class TurnManager : MonoBehaviour {
                 GameManager.instance.players[i].state == PlayerState.STOP);
         }
         return isOver;
+    }
+
+    public void StopDealerTurn()
+    {
+        dealerTurn = false;
+        GameManager.instance.dealer.SetStop();
     }
 
 }

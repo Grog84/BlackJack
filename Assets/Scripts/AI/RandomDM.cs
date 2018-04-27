@@ -13,8 +13,15 @@ namespace AI
         public PlayerAttitude attitude;
         float successThreshold;
 
+        bool initialized = false;
+
         public override void MakeDecision()
         {
+            if (!initialized)
+            {
+                Init();
+            }
+
             if (TakeRandomDecision())
             {
                 player.state = PlayerState.ONEMORE;
@@ -38,11 +45,13 @@ namespace AI
                     successThreshold = 0.6f;
                     break;
                 case PlayerAttitude.BOLD:
-                    successThreshold = 0.8f;
+                    successThreshold = 0.9f;
                     break;
                 default:
                     break;
             }
+
+            initialized = true;
         }
 
         public bool TakeRandomDecision()
@@ -51,9 +60,13 @@ namespace AI
             {
                 return true;
             }
-            else if (player.playerHandValue == 21)
+            else if (player.playerHandValue >= 20)
             {
                 return false;
+            }
+            else if (player.playerHandValue >= 18)
+            {
+                return Random.value < (successThreshold - 0.3);
             }
             else
             {

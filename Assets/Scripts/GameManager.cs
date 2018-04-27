@@ -11,12 +11,18 @@ public class GameManager : MonoBehaviour {
 
     SpriteManager spriteManager;
     CardManager cardManager;
+    CardPoolManager cardPoolManager;
     TurnManager turnManager;
     UIManager uiManager;
 
     [HideInInspector] public Player[] players;
+    [HideInInspector] public Dealer dealer;
+    [HideInInspector] public Deck deck;
 
     public GameObject[] playersGO;
+
+    [HideInInspector]
+    public List<int> lockedCards = new List<int>();
 
     public static GameManager instance
     {
@@ -40,6 +46,7 @@ public class GameManager : MonoBehaviour {
 
         spriteManager   = GetComponentInChildren<SpriteManager>();
         cardManager     = GetComponentInChildren<CardManager>();
+        cardPoolManager = GetComponentInChildren<CardPoolManager>();
         turnManager     = GetComponentInChildren<TurnManager>();
         uiManager       = GetComponentInChildren<UIManager>();
     }
@@ -50,12 +57,19 @@ public class GameManager : MonoBehaviour {
         cardManager.Init();
         uiManager.Init();
 
+        PlayerVO playerVO;
+
         players = new Player[playersNumber];
         for (int i = 0; i < playersNumber; i++)
         {
             playersGO[i].SetActive(true);
             players[i] = playersGO[i].GetComponent<Player>();
+            playerVO = new PlayerVO { id = (i+1).ToString() };
+            players[i].Init(playerVO);
         }
+
+        dealer  = FindObjectOfType<Dealer>();
+        deck    = FindObjectOfType<Deck>();
 
         turnManager.Init();
 
@@ -64,6 +78,21 @@ public class GameManager : MonoBehaviour {
     public TurnPhase GetCurrentTurnPhase()
     {
         return turnManager.state;
+    }
+
+    public void ResetCardPosition()
+    {
+        cardPoolManager.ParkAllCards();
+    }
+
+    public void AddLockedCard(int cardID)
+    {
+        lockedCards.Add(cardID);
+    }
+
+    public void ClearLockedCard()
+    {
+        lockedCards.Clear();
     }
 
 }

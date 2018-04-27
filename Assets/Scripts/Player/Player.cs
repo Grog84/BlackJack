@@ -5,6 +5,8 @@ using AI;
 
 public class Player : MonoBehaviour {
 
+    public PlayerVO playerVO { get; private set; }
+
     [HideInInspector] public int playerHandValue;
 
     PlayerState _state;
@@ -52,6 +54,13 @@ public class Player : MonoBehaviour {
         playerHandValue = 0;
     }
 
+    public void Init(PlayerVO plVO)
+    {
+        playerVO = plVO;
+        state = PlayerState.IDLE;
+        brain.decisionMaker.player = this;
+    }
+
     //
     // State Enter Actions
     //
@@ -81,6 +90,8 @@ public class Player : MonoBehaviour {
     void EnterIdle()
     {
         stateRenderer.color = idleColor;
+        GetComponentInChildren<PlayerArea>().ReleaseCards();
+        playerHandValue = 0;
     }
 
     //

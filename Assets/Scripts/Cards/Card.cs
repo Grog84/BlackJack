@@ -11,8 +11,10 @@ namespace Cards
         private CardVO _cardVO;
         public SpriteRenderer frontRenderer;
 
-        private bool _grabbed;
-        public Vector3 grabbingOffset { get; private set; }
+        public bool locked;
+        public bool grabbed;
+
+        public bool animating;
 
         public CardVO cardVO
         {
@@ -28,30 +30,19 @@ namespace Cards
             }
         }
 
-        public bool grabbed
+        private void Start()
         {
-            get
-            {
-                return _grabbed;
-            }
-            set
-            {
-                _grabbed = value;
-                if (_grabbed)
-                {
-                    grabbingOffset = InputManager.instance.GetPosition() - transform.position;
-                }
-            }
+            locked = false;
         }
 
         void VOPointsConvertion()
         {
             int normalizedValue = _cardVO.idValue % 13;
-            if (normalizedValue <= 9)
+            if (normalizedValue <= 8)
             {
-                pointsValue = normalizedValue;
+                pointsValue = normalizedValue + 2;
             }
-            else if (normalizedValue >= 10 || normalizedValue <= 12)
+            else if (normalizedValue >= 9 && normalizedValue <= 11)
             {
                 pointsValue = 10;
             }

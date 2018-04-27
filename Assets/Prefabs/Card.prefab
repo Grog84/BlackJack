@@ -57,6 +57,7 @@ GameObject:
   - component: {fileID: 54924766539064262}
   - component: {fileID: 114957603451480032}
   - component: {fileID: 114832709230908162}
+  - component: {fileID: 114875029900743816}
   m_Layer: 8
   m_Name: Card
   m_TagString: Card
@@ -84,7 +85,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1742275869212428}
   m_LocalRotation: {x: -0.7071068, y: 0, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: -1, y: 0, z: 0}
+  m_LocalPosition: {x: -1.2, y: 0, z: 0}
   m_LocalScale: {x: 0.0635, y: 0.08890019, z: 0.0020000045}
   m_Children:
   - {fileID: 4014187773330118}
@@ -186,7 +187,21 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   movementSpeed: 10
   yGrabPosition: 0.08
-  inertia: 0
+  inertia: 150
+  gravity: 0.8
+--- !u!114 &114875029900743816
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1742275869212428}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a4cc5a126b6092d4795f0f5acb391cb0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  flippingTime: 0.6
+  anchorTime: 1
 --- !u!114 &114957603451480032
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -199,6 +214,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   frontRenderer: {fileID: 212321056456432928}
+  grabbed: 0
 --- !u!212 &212321056456432928
 SpriteRenderer:
   m_ObjectHideFlags: 1

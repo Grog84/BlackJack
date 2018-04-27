@@ -4,7 +4,13 @@ using UnityEngine;
 
 public class PlayerVO{
 
-    public int id;
+    private string _id;
+
+    public string id
+    {
+        get { return _id; }
+        set { _id = "Player " + value; }
+    }
 
     public PlayerVO() { }
 }

@@ -8,6 +8,8 @@ namespace Cards
     {
         enum FaceDirection { UP, DOWN }
 
+        Card card;
+
         FaceDirection currentFace;
 
         [Range(0.2f, 2f)]
@@ -24,6 +26,8 @@ namespace Cards
             faceUpRotation = Quaternion.Euler(new Vector3(90, 0, 0));
 
             currentFace = FaceDirection.DOWN;
+
+            card = GetComponent<Card>();
         }
 
         IEnumerator FlipCO()
@@ -33,9 +37,9 @@ namespace Cards
 
             Quaternion targetRotation = new Quaternion();
             if (currentFace == FaceDirection.DOWN)
-            { targetRotation = faceDownRotation; }
-            else if (currentFace == FaceDirection.UP)
             { targetRotation = faceUpRotation; }
+            else if (currentFace == FaceDirection.UP)
+            { targetRotation = faceDownRotation; }
 
 
             while (timer < flippingTime)
@@ -46,12 +50,24 @@ namespace Cards
             }
         }
 
-        IEnumerator ApproachPositionCO(Vector3 targetPosition)
+        IEnumerator FlipDownCO()
         {
             float timer = 0;
-            Vector3 startingPosition = transform.position;
+            Quaternion startingRotation = transform.rotation;
+            Quaternion targetRotation = faceDownRotation;
+            while (timer < flippingTime)
+            {
+                timer += Time.deltaTime;
+                transform.rotation = Quaternion.Lerp(startingRotation, targetRotation, timer / flippingTime);
+                yield return new WaitForEndOfFrame();
+            }
+        }
 
-            StartCoroutine(FlipCO());
+        IEnumerator ApproachPositionCO(Vector3 targetPosition)
+        {
+            
+            float timer = 0;
+            Vector3 startingPosition = transform.position;     
 
             while (timer < anchorTime)
             {
@@ -59,11 +75,24 @@ namespace Cards
                 transform.position = Vector3.Lerp(startingPosition, targetPosition, timer / anchorTime);
                 yield return new WaitForEndOfFrame();
             }
+            card.animating = false;
         }
 
         public void AnchorToPosition(Vector3 position)
         {
+            card.animating = true;
+            StartCoroutine(FlipCO());
             StartCoroutine(ApproachPositionCO(position));
+            card.locked = true;
+        }
+
+        public void AnchorToDeckPosition(Vector3 position)
+        {
+            card.animating = true;
+            GetComponent<Rigidbody>().isKinematic = true;
+            StartCoroutine(FlipDownCO());
+            StartCoroutine(ApproachPositionCO(position));
+            card.locked = false;
         }
     }
 }

@@ -6,6 +6,10 @@ public class InputManager : MonoBehaviour
     public bool pressed { get; private set; }
     Vector2 pressPosition;
 
+    public LayerMask mask;
+    Ray ray;
+    RaycastHit hit;
+
     public static InputManager instance
     {
         get; private set;
@@ -34,7 +38,25 @@ public class InputManager : MonoBehaviour
 
     public Vector3 GetPosition()
     {
-        return Camera.main.ScreenToWorldPoint(pressPosition);
+        ray = Camera.main.ScreenPointToRay(pressPosition);
+
+        if (Physics.Raycast(ray, out hit, float.PositiveInfinity, mask))
+        {
+            return hit.point;
+        }
+        else
+        {
+            Debug.LogError("Raycast Failed!");
+            return Vector3.zero;
+        }
+
+
+        //return Camera.main.ScreenToWorldPoint(pressPosition);
+    }
+
+    public Vector3 GetPressPosition()
+    {
+        return pressPosition;
     }
 
     private void Update()

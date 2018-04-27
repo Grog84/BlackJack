@@ -16,7 +16,6 @@ public class RaycastManager : MonoBehaviour
     private void Start()
     {
         mouseBtnDown = false;
-        ray.direction = Vector3.down;
     }
 
     private void Update()
@@ -24,16 +23,33 @@ public class RaycastManager : MonoBehaviour
         if (InputManager.instance.pressed && !mouseBtnDown)
         {
             mouseBtnDown = true;
-            ray.origin = InputManager.instance.GetPosition();
+            ray = Camera.main.ScreenPointToRay(InputManager.instance.GetPressPosition());
+
             if (Physics.Raycast(ray, out rayHit, float.PositiveInfinity, interactableMask))
             {
                 if (rayHit.collider.tag == "Card")
                 {
-                    rayHit.collider.GetComponent<Card>().grabbed = true;
+                    if (!rayHit.collider.GetComponent<Card>().locked)
+                    {
+                        rayHit.collider.GetComponent<Card>().grabbed = true;
+                    }
                 }
                 else if (rayHit.collider.tag == "Deck")
                 {
                     rayHit.collider.GetComponent<Deck>().clicked = true;
+                }
+            }
+        }
+        else if (mouseBtnDown && !InputManager.instance.pressed)
+        {
+            mouseBtnDown = false;
+            ray = Camera.main.ScreenPointToRay(InputManager.instance.GetPressPosition());
+
+            if (Physics.Raycast(ray, out rayHit, float.PositiveInfinity, interactableMask))
+            {
+                if (rayHit.collider.tag == "Card")
+                {
+                    rayHit.collider.GetComponent<Card>().grabbed = false;
                 }
             }
         }

@@ -6,16 +6,16 @@ namespace Cards
 {
     public class CardManager : MonoBehaviour {
 
-        [Range(10, 30)]
+        [Range(10, 52)]
         public int cardPoolExtension;
 
         public GameObject cardPrefab;
 
         [HideInInspector]
-        internal List<CardVO> cardsVOList = new List<CardVO>();
+        public List<CardVO> cardsVOList = new List<CardVO>();
 
         [HideInInspector]
-        internal List<Card> cardPool = new List<Card>();
+        public List<Card> cardPool = new List<Card>();
 
         public void Init () {
 

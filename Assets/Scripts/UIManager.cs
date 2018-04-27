@@ -7,6 +7,7 @@ public class UIManager : MonoBehaviour {
 
     public GameObject[] labels;
     public GameObject[] messages;
+    public Text cardCounter;
 
     public void Init()
     {
@@ -26,10 +27,17 @@ public class UIManager : MonoBehaviour {
         StartCoroutine(MessageCO(1));
     }
 
-    public void Wins(string winner)
+    public IEnumerator Wins(string winner)
     {
-        messages[2].GetComponent<Text>().text = winner + " Wins!";
-        StartCoroutine(MessageCO(2));
+        if (winner == "Draw")
+        {
+            messages[2].GetComponent<Text>().text = "Draw!";
+        }
+        else
+        {
+            messages[2].GetComponent<Text>().text = winner + " Wins!";
+        }
+        yield return StartCoroutine(MessageCO(2));
     }
 
     IEnumerator MessageCO(int messageIdx)
@@ -56,6 +64,11 @@ public class UIManager : MonoBehaviour {
 
         messages[messageIdx].transform.localPosition = startingPosition;
 
+    }
+
+    public void UpdateCardCounter(int nbr)
+    {
+        cardCounter.text = "Remaining \n Cards: \n " + nbr;
     }
 
 }

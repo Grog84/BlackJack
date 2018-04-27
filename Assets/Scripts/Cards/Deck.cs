@@ -11,7 +11,7 @@ namespace Cards
 
         private UIManager uiManager;
 
-        private Stack<int> cards = new Stack<int>();
+        private LinkedList<int> cards = new LinkedList<int>();
 
         float cardThickness;
         float loweringAmount;
@@ -75,13 +75,22 @@ namespace Cards
 
             cardsList = cardsList.OrderBy(item => Random.value).ToList();
 
-            cards = new Stack<int>(cardsList);
+            cards = new LinkedList<int>(cardsList);
 
             transform.position = startingPosition;
             transform.localScale = startingScale;
 
             cardsLeft = cards.Count;
             uiManager.UpdateCardCounter(cardsLeft);
+        }
+
+        public void Shuffle()
+        {          
+            List<int> cardsList = new List<int>(cards);
+            cardsList = cardsList.OrderBy(item => Random.value).ToList();
+
+            cards = new LinkedList<int>(cardsList);
+          
         }
 
 
@@ -96,7 +105,8 @@ namespace Cards
 
                 if (cards.Count > 0)
                 {
-                    cardIdx = cards.Pop();
+                    cardIdx = cards.First();
+                    cards.RemoveFirst();
                     Card pickedUpCard = cardPoolManager.GetNext();
                     pickedUpCard.cardVO = cardManager.cardsVOList[cardIdx];
                     pickedUpCard.transform.position = transform.position;
@@ -114,13 +124,21 @@ namespace Cards
             }
         }
 
-        public void AddCard(Card card)
+        public void AddCard(Card card, bool top = true)
         {
             transform.position += Vector3.up * cardThickness;
             transform.position += Vector3.up * cardThickness;
 
-            cards.Push(card.cardVO.idValue);
-            cardPoolManager.ParkCard(card);
+            if (top)
+            {
+                cards.AddFirst(card.cardVO.idValue);
+                cardPoolManager.ParkCard(card);
+            }
+            else
+            {
+                cards.AddLast(card.cardVO.idValue);
+            }
+
 
             cardsLeft++;
             uiManager.UpdateCardCounter(cardsLeft);
@@ -130,7 +148,9 @@ namespace Cards
         {
             if (collision.gameObject.tag == "Card")
             {
-                AddCard(collision.gameObject.GetComponent<Card>());
+                
+                 AddCard(collision.gameObject.GetComponent<Card>());
+                
             }
         }
 

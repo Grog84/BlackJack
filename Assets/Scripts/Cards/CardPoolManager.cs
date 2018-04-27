@@ -57,8 +57,10 @@ namespace Cards
 
         public void ParkCard(Card card)
         {
+            Debug.Log("Park");
             card.transform.position = parkingPosition;
             card.transform.rotation = Quaternion.Euler(new Vector3(-90, 0, 0));
+            card.locked = false;
         }
 
         public void CollectAllLooseCards()
@@ -67,6 +69,7 @@ namespace Cards
             {
                 if (!c.locked && c.transform.position != parkingPosition)
                 {
+                    Debug.Log(c.transform.position);
                     CollectLooseCard(c);
                 }
             }
@@ -75,13 +78,14 @@ namespace Cards
         public void CollectLooseCard(Card card)
         {
             card.GetComponent<CardAnimation>().AnchorToDeckPosition(GameManager.instance.deck.transform.position);
+            GameManager.instance.deck.AddCard(card, false);
             StartCoroutine(DelayedParkAllCardsCO());
         }
 
         IEnumerator DelayedParkAllCardsCO()
         {
             yield return new WaitForSeconds(2);
-            ParkAllLooseCards();
+            ParkAllCards();
         }
 
     }

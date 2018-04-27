@@ -79,6 +79,7 @@ public class DealerArea : MonoBehaviour {
         for (int i = anchoredCards.Count - 1; i > -1; i--)
         {
             anchoredCards[i].AnchorToDeckPosition(GameManager.instance.deck.transform.position);
+            GameManager.instance.deck.AddCard(anchoredCards[i].GetComponent<Card>(), false);
             anchoredCards.RemoveAt(i);
         }
 

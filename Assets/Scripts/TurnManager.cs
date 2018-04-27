@@ -8,12 +8,13 @@ public class TurnManager : MonoBehaviour {
 
     public TurnPhase state { get; private set; }
 
-    [HideInInspector] public bool dealerTurn = true;
+    [HideInInspector] public bool dealerTurn;
 
     UIManager uiManager;
 
     private void Start()
     {
+        dealerTurn = false;
         uiManager = FindObjectOfType<UIManager>();
     }
 
@@ -99,11 +100,15 @@ public class TurnManager : MonoBehaviour {
                 }
             }
 
-            StartCoroutine(ResetPlayer(pl));
+            Debug.Log("Turn reset player");
+            ResetPlayer(pl);
             yield return StartCoroutine(uiManager.Wins(winner));
         }
 
         GameManager.instance.dealer.ResetDealer();
+        yield return new WaitForSeconds(1);
+
+        GameManager.instance.ColectLooseCards();
 
         yield return new WaitForSeconds(3);
 
@@ -113,10 +118,9 @@ public class TurnManager : MonoBehaviour {
         yield return null;
     }
 
-    IEnumerator ResetPlayer(Player player)
+    void ResetPlayer(Player player)
     {
         player.state = PlayerState.IDLE;
-        yield return null;
     }
 
     bool CheckPlayerTurnOver()
@@ -132,8 +136,11 @@ public class TurnManager : MonoBehaviour {
 
     public void StopDealerTurn()
     {
-        dealerTurn = false;
-        GameManager.instance.dealer.SetStop();
+        if (dealerTurn)
+        {
+            dealerTurn = false;
+            GameManager.instance.dealer.SetStop();
+        }
     }
 
 }

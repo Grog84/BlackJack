@@ -76,6 +76,7 @@ namespace Cards
                 yield return new WaitForEndOfFrame();
             }
             card.animating = false;
+            card.locked = true;
         }
 
         public void AnchorToPosition(Vector3 position)
@@ -92,7 +93,7 @@ namespace Cards
             GetComponent<Rigidbody>().isKinematic = true;
             StartCoroutine(FlipDownCO());
             StartCoroutine(ApproachPositionCO(position));
-            card.locked = false;
+            card.locked = true;
         }
     }
 }

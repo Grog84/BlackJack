@@ -85,6 +85,11 @@ public class GameManager : MonoBehaviour {
         cardPoolManager.ParkAllCards();
     }
 
+    public void ColectLooseCards()
+    {
+        cardPoolManager.CollectAllLooseCards();
+    }
+
     public void AddLockedCard(int cardID)
     {
         lockedCards.Add(cardID);

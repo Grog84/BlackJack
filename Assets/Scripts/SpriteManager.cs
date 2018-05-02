@@ -1,4 +1,10 @@
-﻿using System;
+﻿/*
+ * The sprite manager is implemented as a sigletona nd is in charge of assigning the correct
+ * sprite to the cards according to their id.
+ * 
+ * */
+
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -19,7 +25,6 @@ public class SpriteManager : MonoBehaviour {
         if (instance == null)
         {
             instance = this;      
-            DontDestroyOnLoad(this);
         }
         else
         {

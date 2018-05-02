@@ -1,4 +1,10 @@
-﻿using System.Collections.Generic;
+﻿/*
+ * The input manager is in charge of projecting the movement of the player mouse
+ * on the plane where the cards are actually moving
+ * 
+ * */
+
+
 using UnityEngine;
 
 public class InputManager : MonoBehaviour
@@ -20,7 +26,6 @@ public class InputManager : MonoBehaviour
         if (instance == null)
         {
             instance = this;
-            DontDestroyOnLoad(this);
         }
         else
         {

@@ -1,5 +1,10 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿/*
+ * This component is keeping track of the card identity and value
+ * It is also used in order to host the variables needed by more than one component
+ * among those connected to this GameObject 
+ * 
+ * */
+
 using UnityEngine;
 
 namespace Cards

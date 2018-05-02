@@ -1,5 +1,9 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿/*
+ * Component in charge of controlling the UI messages
+ * 
+ * */
+
+using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 

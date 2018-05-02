@@ -1,6 +1,7 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿/*
+ * Definition of the player Vlaue Object 
+ * 
+ * */
 
 public class PlayerVO{
 

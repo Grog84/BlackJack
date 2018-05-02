@@ -1,6 +1,14 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿/*
+ * The Turn manager is responsible of the different phases of the game.
+ * The phases are timed and set in a queue using a Coroutine system, having a main coroutine
+ * waiting for all the others to be over.
+ * 
+ * */
+
+using System.Collections;
 using UnityEngine;
+
+using Players;
 
 public enum TurnPhase { IDLE, PLAYER, DEALER };
 
@@ -8,7 +16,8 @@ public class TurnManager : MonoBehaviour {
 
     public TurnPhase state { get; private set; }
 
-    [HideInInspector] public bool dealerTurn;
+    bool dealerTurn;
+    Dealer dealer;
 
     UIManager uiManager;
 
@@ -16,6 +25,8 @@ public class TurnManager : MonoBehaviour {
     {
         dealerTurn = false;
         uiManager = FindObjectOfType<UIManager>();
+
+        dealer = FindObjectOfType<Dealer>();
     }
 
     public void Init()
@@ -56,19 +67,27 @@ public class TurnManager : MonoBehaviour {
 
         uiManager.DealerTurnBegins();
 
-        GameManager.instance.dealer.waitingForCard = true;
+        dealer.waitingForCard = true;
 
         while (dealerTurn)
         {
-            if (GameManager.instance.dealer.dealerHandValue > 21)
+            if (dealer.handValue > 21)
             {
                 dealerTurn = false;
-                GameManager.instance.dealer.SetBusted();
+                dealer.SetBusted();
             }
+            else
+            {
+                if (dealer.waitingForCard == false)
+                {
+                    dealer.waitingForCard = true;
+                }
+            }
+
             yield return null;    
         }
 
-        GameManager.instance.dealer.waitingForCard = false;
+        dealer.waitingForCard = false;
     }
 
     IEnumerator PassTurnCO()
@@ -77,7 +96,7 @@ public class TurnManager : MonoBehaviour {
 
         foreach (var pl in GameManager.instance.players)
         {
-            if (GameManager.instance.dealer.dealerHandValue > 21)
+            if (dealer.handValue > 21)
             {
                 if (pl.state == PlayerState.BUSTED)
                 {
@@ -93,24 +112,27 @@ public class TurnManager : MonoBehaviour {
                 winner = "Dealer";
                 if (pl.state != PlayerState.BUSTED)
                 {
-                    if (pl.playerHandValue > GameManager.instance.dealer.dealerHandValue)
+                    if (pl.handValue > dealer.handValue)
                     {
                         winner = pl.playerVO.id;
+                    }
+                    else if (pl.handValue == dealer.handValue)
+                    {
+                        winner = "Draw";
                     }
                 }
             }
 
-            Debug.Log("Turn reset player");
             ResetPlayer(pl);
             yield return StartCoroutine(uiManager.Wins(winner));
         }
 
-        GameManager.instance.dealer.ResetDealer();
+        dealer.ResetDealer();
         yield return new WaitForSeconds(1);
 
         GameManager.instance.ColectLooseCards();
 
-        yield return new WaitForSeconds(3);
+        yield return new WaitForSeconds(2);
 
         GameManager.instance.ResetCardPosition();
         GameManager.instance.ClearLockedCard();
@@ -139,7 +161,7 @@ public class TurnManager : MonoBehaviour {
         if (dealerTurn)
         {
             dealerTurn = false;
-            GameManager.instance.dealer.SetStop();
+            dealer.SetStop();
         }
     }
 

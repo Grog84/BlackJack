@@ -1,5 +1,10 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿/*
+ * This component is in charge of the scripted movements of a card.
+ * It is used when a card is anchored to a player area or is moving back into the deck
+ * 
+ * */
+
+using System.Collections;
 using UnityEngine;
 
 namespace Cards

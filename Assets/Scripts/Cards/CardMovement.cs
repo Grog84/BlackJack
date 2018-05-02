@@ -1,5 +1,9 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿/*
+ * This component is responsible for the card movement when grabbed by the player
+ * 
+ * */
+
+using System.Collections;
 using UnityEngine;
 
 namespace Cards

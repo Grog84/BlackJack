@@ -1,8 +1,12 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿/*
+ * The Decision maker is an abstract class. It defines the interface for the AI of the player.
+ * The structure is intended for using a strategy pattern
+ * 
+ * */
+
 using UnityEngine;
 
-namespace AI
+namespace Players.AI
 {
     [System.Serializable]
     public abstract class DecisionMaker: ScriptableObject

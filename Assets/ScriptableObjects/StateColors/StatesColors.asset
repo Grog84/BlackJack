@@ -1,0 +1,18 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 0}
+  m_Name: StatesColors
+  m_EditorClassIdentifier: Assembly-CSharp:Players:StatesColor
+  oneMoreColor: {r: 0, g: 1, b: 0.33793116, a: 1}
+  stopColor: {r: 1, g: 0.72413796, b: 0, a: 1}
+  bustedColor: {r: 1, g: 0, b: 0, a: 1}
+  decidingColor: {r: 0.47794116, g: 0.47794116, b: 0.47794116, a: 1}
+  idleColor: {r: 1, g: 1, b: 1, a: 1}

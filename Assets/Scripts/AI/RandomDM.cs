@@ -1,8 +1,13 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿/*
+ * The Random decision maker is a simple AI system that consist in rolling for the chance of asking for one more card
+ * It can be personalised opting for one out of three different personalities, each characterized by a different
+ * chance of asking for more cards.
+ * 
+ * */
+
 using UnityEngine;
 
-namespace AI
+namespace Players.AI
 {
     public enum PlayerAttitude { SHY, NORMAL, BOLD }
 
@@ -56,15 +61,15 @@ namespace AI
 
         public bool TakeRandomDecision()
         {
-            if (player.playerHandValue <= 10)
+            if (player.handValue <= 10)
             {
                 return true;
             }
-            else if (player.playerHandValue >= 20)
+            else if (player.handValue >= 20)
             {
                 return false;
             }
-            else if (player.playerHandValue >= 18)
+            else if (player.handValue >= 18)
             {
                 return Random.value < (successThreshold - 0.3);
             }

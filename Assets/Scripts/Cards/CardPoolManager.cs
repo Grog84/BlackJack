@@ -1,5 +1,11 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿/*
+ * The Pooling system has been implemented in case of performance issues on low budget mobiles
+ * In the Card Manager it is possible to set the number of instanced cards
+ * For a PC application a value of 52 (max nbr of cards) is recommanded
+ * 
+ * */
+
+using System.Collections;
 using UnityEngine;
 
 namespace Cards
@@ -26,6 +32,7 @@ namespace Cards
             poolLength = cardManager.cardPoolExtension;
         }
 
+        // Returns the next card in the pooling queue
         internal Card GetNext()
         {
             Card nextCard = cardManager.cardPool[nextCardIdx];
@@ -34,6 +41,7 @@ namespace Cards
             return nextCard;
         }
 
+        // Set all cards in the parking state and position
         public void ParkAllCards()
         {
             nextCardIdx = 0;
@@ -43,6 +51,7 @@ namespace Cards
             }
         }
 
+        // Parks only the cards that have been thrown away by the player
         public void ParkAllLooseCards()
         {
             nextCardIdx = 0;
@@ -55,14 +64,15 @@ namespace Cards
             }
         }
 
+        // Parks a card
         public void ParkCard(Card card)
         {
-            Debug.Log("Park");
             card.transform.position = parkingPosition;
             card.transform.rotation = Quaternion.Euler(new Vector3(-90, 0, 0));
             card.locked = false;
         }
 
+        // Puts back in the deck all loose cards
         public void CollectAllLooseCards()
         {
             foreach (var c in cardManager.cardPool)
@@ -75,6 +85,7 @@ namespace Cards
             }
         }
 
+        // Puts back in the deck a loose card
         public void CollectLooseCard(Card card)
         {
             card.GetComponent<CardAnimation>().AnchorToDeckPosition(GameManager.instance.deck.transform.position);
@@ -82,6 +93,7 @@ namespace Cards
             StartCoroutine(DelayedParkAllCardsCO());
         }
 
+        // Coroutine required for a proper timing
         IEnumerator DelayedParkAllCardsCO()
         {
             yield return new WaitForSeconds(2);

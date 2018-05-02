@@ -1,5 +1,9 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿/*
+ * The raycast manager is performing the evalutaion of the raycasts
+ * connected to the mouse clicking and release
+ * 
+ * */
+
 using UnityEngine;
 
 using Cards;

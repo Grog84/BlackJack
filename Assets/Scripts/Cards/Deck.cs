@@ -1,4 +1,14 @@
-﻿using System.Linq;
+﻿/*
+ * The deck consists in a list of cards identified by an integer value, that in turns referes to the cards value objects
+ * When the deck is clicked by the user a card is pooled to the deck position using the Card pool manager.
+ * The value and sprite of the card is then updated according to the corresponding top of the deck value
+ * 
+ * The card stack is represented by a linked list, since this data structure allows to easily add
+ * cards at the bottom and at the top of the stack
+ * 
+ * */
+
+using System.Linq;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -57,6 +67,7 @@ namespace Cards
             ReShuffle();
         }
 
+        // Shuffles a new deck from scratch. At the end the deck will be composed by all the 52 cards
         public void ReShuffle()
         {
             cards.Clear();
@@ -84,6 +95,8 @@ namespace Cards
             uiManager.UpdateCardCounter(cardsLeft);
         }
 
+        // Shuffles an already existing deck. At the end of te shuffling process
+        // the deck will be composed by the same ammount of cards composing it at the beginning
         public void Shuffle()
         {          
             List<int> cardsList = new List<int>(cards);
@@ -93,7 +106,7 @@ namespace Cards
           
         }
 
-
+        // Pools a card and assignes the correct value
         public void TakeCard()
         {
             if (cardsLeft > 0)
@@ -124,10 +137,11 @@ namespace Cards
             }
         }
 
+        // When a card is falling at the top of the deck, it is added back to the stack
         public void AddCard(Card card, bool top = true)
         {
             transform.position += Vector3.up * cardThickness;
-            transform.position += Vector3.up * cardThickness;
+            transform.localScale = transform.localScale + Vector3.forward * cardThickness;
 
             if (top)
             {

@@ -1,4 +1,9 @@
-﻿using System.Collections;
+﻿/*
+ * This is the main cards manager. It is responsible of creating the cards identities
+ * and the cards prefabs
+ * 
+ * */
+
 using System.Collections.Generic;
 using UnityEngine;
 

@@ -1,8 +1,12 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿/*
+ * The Brain is the main component in charge of taking decisions
+ * It consist in a single method that can be referred in order to ask for a decision.
+ * 
+ * */
+
 using UnityEngine;
 
-namespace AI
+namespace Players.AI
 {
     public class Brain : MonoBehaviour
     {

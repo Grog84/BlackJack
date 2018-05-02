@@ -1,4 +1,9 @@
-﻿using System;
+﻿/*
+ * Definition of the card Vlaue Object
+ * 
+ * */
+
+using System;
 using UnityEngine;
 
 namespace Cards

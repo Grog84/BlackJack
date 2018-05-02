@@ -367,13 +367,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerHandValue: 0
-  waitingForCard: 0
   stateRenderer: {fileID: 212114993496453282}
-  oneMoreColor: {r: 0.2116674, g: 0.99264705, b: 0.44326824, a: 1}
-  stopColor: {r: 1, g: 0.80344826, b: 0.16176468, a: 1}
-  bustedColor: {r: 1, g: 0, b: 0, a: 1}
-  decidingColor: {r: 0.6691177, g: 0.6691177, b: 0.6691177, a: 1}
-  idleColor: {r: 1, g: 1, b: 1, a: 1}
+  stateColor: {fileID: 11400000, guid: 5680ae8615b8a7b48b04cccd8b8d9f2d, type: 2}
 --- !u!212 &212114993496453282
 SpriteRenderer:
   m_ObjectHideFlags: 1

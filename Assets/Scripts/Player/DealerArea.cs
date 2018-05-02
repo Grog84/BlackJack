@@ -5,14 +5,14 @@
 
 namespace Players
 {
-    public class PlayerArea : PlayerAreaBase
+    public class DealerArea : PlayerAreaBase
     {
         protected override void Awake()
         {
             base.Awake();
-            player = GetComponentInParent<Player>();
+            player = GetComponentInParent<Dealer>();
         }
 
     }
-
 }
+

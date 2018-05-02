@@ -1551,12 +1551,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8535d9e7b7ae9fd46a0c3876a8858506, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dealerHandValue: 0
+  playerHandValue: 0
   stateRenderer: {fileID: 989925037}
-  oneMoreColor: {r: 0.04411763, g: 1, b: 0.2880323, a: 1}
-  stopColor: {r: 1, g: 0.7060852, b: 0.07352942, a: 1}
-  bustedColor: {r: 1, g: 0, b: 0, a: 1}
-  idleColor: {r: 1, g: 1, b: 1, a: 1}
+  stateColor: {fileID: 11400000, guid: 5680ae8615b8a7b48b04cccd8b8d9f2d, type: 2}
+  dealerHandValue: 0
 --- !u!1 &1176456748
 GameObject:
   m_ObjectHideFlags: 0

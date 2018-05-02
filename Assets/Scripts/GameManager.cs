@@ -1,8 +1,14 @@
-﻿using System.Collections;
+﻿/*
+ * The Game Manager is referred by the other scripts in order to perform the operation on the Mangers.
+ * It can be easily accessed thanks to the use of the singleton pattern.
+ * 
+ * */
+
 using System.Collections.Generic;
 using UnityEngine;
 
 using Cards;
+using Players;
 
 public class GameManager : MonoBehaviour {
 
@@ -16,7 +22,7 @@ public class GameManager : MonoBehaviour {
     UIManager uiManager;
 
     [HideInInspector] public Player[] players;
-    [HideInInspector] public Dealer dealer;
+    
     [HideInInspector] public Deck deck;
 
     public GameObject[] playersGO;
@@ -68,7 +74,7 @@ public class GameManager : MonoBehaviour {
             players[i].Init(playerVO);
         }
 
-        dealer  = FindObjectOfType<Dealer>();
+        
         deck    = FindObjectOfType<Deck>();
 
         turnManager.Init();

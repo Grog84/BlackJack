@@ -65,16 +65,16 @@ namespace Cards
 
         IEnumerator RecordSpeedCO()
         {
-            Vector2 oldPos = InputManager.instance.GetPosition();
-            Vector2 newPos = InputManager.instance.GetPosition();
+            Vector2 oldPos = InputManager.instance.GetPositionVec2();
+            Vector2 newPos = InputManager.instance.GetPositionVec2();
 
             while (grabbed)
             {
-                newPos = InputManager.instance.GetPosition();
+                newPos = InputManager.instance.GetPositionVec2();
                 deltaSpeedPosition = newPos - oldPos;
                 oldPos = newPos;
 
-                speedVec.Set(deltaSpeedPosition.x, deltaSpeedPosition.y, 0);
+                speedVec.Set(deltaSpeedPosition.x, 0, deltaSpeedPosition.y);
 
                 yield return new WaitForSeconds(0.05f);
             }

@@ -59,6 +59,24 @@ public class InputManager : MonoBehaviour
         //return Camera.main.ScreenToWorldPoint(pressPosition);
     }
 
+    public Vector2 GetPositionVec2()
+    {
+        ray = Camera.main.ScreenPointToRay(pressPosition);
+
+        if (Physics.Raycast(ray, out hit, float.PositiveInfinity, mask))
+        {
+            return new Vector2(hit.point.x, hit.point.z);
+        }
+        else
+        {
+            Debug.LogError("Raycast Failed!");
+            return Vector2.zero;
+        }
+
+
+        //return Camera.main.ScreenToWorldPoint(pressPosition);
+    }
+
     public Vector3 GetPressPosition()
     {
         return pressPosition;
